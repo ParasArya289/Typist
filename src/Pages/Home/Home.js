@@ -3,7 +3,9 @@ import "./Home.css";
 
 export const Home = () => {
   const [userInput, setUserInput] = useState("");
-  const [toBeTyped, setToBeTyped] = useState("quick brow fox lying in the box");
+  const [toBeTyped, setToBeTyped] = useState(
+    "quick brown fox lying in the box,हिन्दी जिसके मानकीकृत रूप को मानक हिन्दी कहा जाता है"
+  );
   // const [element, setElement] = useState([]);
 
   const toBeTypedRef = useRef(null);
@@ -48,14 +50,14 @@ export const Home = () => {
         { count: 0, elements: [] }
       );
       count += eachWordCount;
-      spans = [...spans,elements,<span>{" "}</span>];
+      spans = [...spans, elements, <span> </span>];
     });
 
     return { count, spans };
   };
 
-  // const renderText = () => {
-  //   return 
+  // const changeText = (e) => {
+  //   return
   // }
 
   return (
@@ -70,6 +72,7 @@ export const Home = () => {
             return el;
           })}
         </div>
+        {/* <textarea placeholder="Paste your text here" onChange={(e)=>}/> */}
         <textarea
           placeholder="start typing here"
           onChange={(e) => setUserInput(e.target.value)}
