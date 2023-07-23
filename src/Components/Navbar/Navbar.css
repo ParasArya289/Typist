@@ -1,0 +1,14 @@
+.navbar {
+  display: flex;
+  height: 3rem;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: white;
+  padding-inline: 20px;
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+}
