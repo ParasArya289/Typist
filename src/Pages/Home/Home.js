@@ -6,6 +6,8 @@ export const Home = () => {
   const [toBeTyped, setToBeTyped] = useState(
     "quick brown fox lying in the box,हिन्दी जिसके मानकीकृत रूप को मानक हिन्दी कहा जाता है"
   );
+  const [backSpacePressed, setBackSpacePressed] = useState(0);
+
   // const [element, setElement] = useState([]);
 
   const toBeTypedRef = useRef(null);
@@ -71,10 +73,17 @@ export const Home = () => {
     }
   };
 
+  const handleBackSpace = (e) => {
+    if (e.key === "Backspace") {
+      setBackSpacePressed((prev) => prev + 1);
+    }
+  };
+
   return (
     <main className="home">
       <h4>
-        {checkCorrectCount()?.count} {toBeTyped.replaceAll(" ", "").length}
+        {checkCorrectCount()?.count} / {toBeTyped.replaceAll(" ", "").length}{" "}
+        Backspace: {backSpacePressed}
       </h4>
       <section className="typing-section">
         <textarea ref={toBeTypedRef} value={toBeTyped} />
@@ -89,7 +98,8 @@ export const Home = () => {
         </form>
         <textarea
           placeholder="start typing here"
-          onChange={(e) => moveCarret}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={(e) => handleBackSpace(e)}
         />
       </section>
     </main>
