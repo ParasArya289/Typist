@@ -51,7 +51,10 @@ export const Home = () => {
 
   const changeText = (e) => {
     e.preventDefault();
-    setToBeTyped(userPastedText?.current.value);
+    if (userPastedText?.current.value) {
+      setToBeTyped(userPastedText?.current.value);
+      userPastedText.current.value = "";
+    }
   };
 
   return (
@@ -60,7 +63,7 @@ export const Home = () => {
         {checkCorrectCount()?.count} {toBeTyped.replaceAll(" ", "").length}
       </h4>
       <section className="typing-section">
-        <textarea value={toBeTyped} />
+        <textarea ref={toBeTypedRef} value={toBeTyped} />
         <div>
           {checkCorrectCount()?.spans?.map((el) => {
             return el;
