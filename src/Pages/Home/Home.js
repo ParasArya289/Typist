@@ -10,6 +10,7 @@ export const Home = () => {
 
   const toBeTypedRef = useRef(null);
   const userInputRef = useRef(null);
+  const userPastedText = useRef(null);
 
   const checkCorrectCount = () => {
     const toBeTypedWord = toBeTyped.split(" ");
@@ -17,14 +18,6 @@ export const Home = () => {
 
     let count = 0;
     let spans = [];
-
-    // userInputWord?.forEach((userWord, idx) => {
-    //   const eachWordCount = [...userWord]?.reduce(
-    //     (acc, char, i) => (char === toBeTypedWord[idx][i] ? acc + 1 : acc),
-    //     0
-    //   );
-    //   count += eachWordCount;
-    // });
 
     userInputWord?.forEach((userWord, idx) => {
       const { count: eachWordCount, elements } = [...userWord]?.reduce(
@@ -56,9 +49,10 @@ export const Home = () => {
     return { count, spans };
   };
 
-  // const changeText = (e) => {
-  //   return
-  // }
+  const changeText = (e) => {
+    e.preventDefault();
+    setToBeTyped(userPastedText?.current.value);
+  };
 
   return (
     <main className="home">
@@ -72,7 +66,10 @@ export const Home = () => {
             return el;
           })}
         </div>
-        {/* <textarea placeholder="Paste your text here" onChange={(e)=>}/> */}
+        <form onSubmit={changeText}>
+          <textarea ref={userPastedText} placeholder="Paste your text here" />
+          <button type="submit">Submit</button>
+        </form>
         <textarea
           placeholder="start typing here"
           onChange={(e) => setUserInput(e.target.value)}
