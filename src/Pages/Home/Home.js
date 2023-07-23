@@ -52,8 +52,22 @@ export const Home = () => {
   const changeText = (e) => {
     e.preventDefault();
     if (userPastedText?.current.value) {
-      setToBeTyped(userPastedText?.current.value);
+      const formattedText = userPastedText?.current.value?.replaceAll(
+        "\n",
+        " "
+      );
+      setToBeTyped(formattedText);
       userPastedText.current.value = "";
+    }
+  };
+
+  const moveCarret = (e) => {
+    const { value } = e.target.value;
+    setUserInput(value);
+
+    if (toBeTypedRef.current) {
+      toBeTypedRef.current.selectionStart = 4;
+      toBeTypedRef.current.selectionEnd = 4;
     }
   };
 
@@ -75,7 +89,7 @@ export const Home = () => {
         </form>
         <textarea
           placeholder="start typing here"
-          onChange={(e) => setUserInput(e.target.value)}
+          onChange={(e) => moveCarret}
         />
       </section>
     </main>
