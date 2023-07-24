@@ -6,14 +6,22 @@
   justify-content: center;
 }
 .typing-section {
-    width: 70%;
+  width: 70%;
 }
-.typing-section  textarea {
-    width: 100%;
-    resize: vertical;
-    font-size: 1.5rem;
+.typing-section textarea {
+  width: 100%;
+  resize: vertical;
+  font-size: 1.5rem;
 }
-.typing-section > textarea:nth-child(1) {
+.textToBeTyped {
   min-height: 10rem;
   margin-bottom: 20px;
+  border: 1px solid;
+  text-align: left;
+  padding: 10px;
+  font-size: 1.5rem;
+  overflow-y: auto;
+  word-break: break-word;
 }
+/* .typing-section > textarea:nth-child(1) {
+} */
