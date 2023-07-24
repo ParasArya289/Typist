@@ -168,7 +168,7 @@ export const Home = () => {
 
   return (
     <main className="home">
-      <h2>{userInput}</h2>
+      {/* <h2>{userInput}</h2> */}
       <h4>
         {checkCorrectCount()?.count} / {toBeTyped.replaceAll(" ", "").length}{" "}
         Backspace: {backSpacePressed}{" "}

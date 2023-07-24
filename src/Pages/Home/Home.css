@@ -15,6 +15,7 @@
 }
 .textToBeTyped {
   min-height: 10rem;
+  max-height: 15rem;
   margin-bottom: 20px;
   border: 1px solid;
   text-align: left;
