@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { englishToHindiMap } from "../../LangaugeMap/LangaugeMap";
 import "./Home.css";
 
 export const Home = () => {
@@ -8,11 +9,25 @@ export const Home = () => {
   );
   const [backSpacePressed, setBackSpacePressed] = useState(0);
 
-  // const [element, setElement] = useState([]);
+  const [langauge, setLanguage] = useState("hindi");
 
   const toBeTypedRef = useRef(null);
   const userInputRef = useRef(null);
   const userPastedText = useRef(null);
+
+  const processInput = (e) => {
+    const { value } = e.target;
+
+    if (langauge === "hindi") {
+      const convertedText = [...value]?.reduce(
+        (acc, char) => (acc += englishToHindiMap[char]),
+        ""
+      );
+      setUserInput(convertedText);
+      return;
+    }
+    setUserInput(e.target.value);
+  };
 
   const checkCorrectCount = () => {
     const toBeTypedWord = toBeTyped.split(" ");
@@ -60,7 +75,6 @@ export const Home = () => {
     return { count, corrects };
   };
 
-
   const renderText = () => {
     const toBeTypedWord = toBeTyped.split(" ");
     const userInputWord = userInput.split(" ");
@@ -74,8 +88,8 @@ export const Home = () => {
       const userTypedWord = userInputWord[wordIndex] || "";
 
       let heighlight = "";
-      if(userInputWord.length-1 === wordIndex && userInput.length >= 1){
-        heighlight = {backgroundColor:'yellow'};
+      if (userInputWord.length - 1 === wordIndex && userInput.length >= 1) {
+        heighlight = { backgroundColor: "yellow" };
       }
 
       for (let charIndex = 0; charIndex < word.length; charIndex++) {
@@ -84,14 +98,24 @@ export const Home = () => {
           correctWord[charIndex] &&
           correctWord[charIndex].correct;
         const userTypedChar = userTypedWord[charIndex] || "";
-        const currentWord = word[charIndex]
+        const currentWord = word[charIndex];
 
         if (correct === true) {
-          allText.push(<letter style={{ color: "green",...heighlight }}>{currentWord}</letter>);
+          allText.push(
+            <letter style={{ color: "green", ...heighlight }}>
+              {currentWord}
+            </letter>
+          );
         } else if (correct === false) {
-          allText.push(<letter style={{ color: "red",...heighlight}}>{currentWord}</letter>);
+          allText.push(
+            <letter style={{ color: "red", ...heighlight }}>
+              {currentWord}
+            </letter>
+          );
         } else {
-          allText.push(<letter style={{...heighlight}}>{word[charIndex]}</letter>);
+          allText.push(
+            <letter style={{ ...heighlight }}>{word[charIndex]}</letter>
+          );
         }
       }
       if (userTypedWord.length > word.length) {
@@ -102,7 +126,11 @@ export const Home = () => {
           charIndex++
         ) {
           const userTypedChar = userTypedWord[charIndex];
-          allText.push(<letter style={{ color: "red",...heighlight }}>{userTypedChar}</letter>);
+          allText.push(
+            <letter style={{ color: "red", ...heighlight }}>
+              {userTypedChar}
+            </letter>
+          );
         }
       }
       allText.push(<letter> </letter>);
@@ -133,29 +161,32 @@ export const Home = () => {
   };
 
   const handleBackSpace = (e) => {
-    if (e.key === "Backspace") {
+    if (e.key === "Backspace" && userInput) {
       setBackSpacePressed((prev) => prev + 1);
     }
   };
 
   return (
     <main className="home">
+      <h2>{userInput}</h2>
       <h4>
         {checkCorrectCount()?.count} / {toBeTyped.replaceAll(" ", "").length}{" "}
-        Backspace: {backSpacePressed}
+        Backspace: {backSpacePressed}{" "}
+        <select onChange={(e) => setLanguage(e.target.value)}>
+          <option value="hindi">Hindi</option>
+          <option value="english">English</option>
+        </select>
       </h4>
       <section className="typing-section">
         {/* <textarea ref={toBeTypedRef} value={toBeTyped} /> */}
-        <div className="textToBeTyped">
-          {renderText()}
-        </div>
+        <div className="textToBeTyped">{renderText()}</div>
         <form onSubmit={changeText}>
           <textarea ref={userPastedText} placeholder="Paste your text here" />
           <button type="submit">Submit</button>
         </form>
         <textarea
           placeholder="start typing here"
-          onChange={(e) => setUserInput(e.target.value)}
+          onChange={(e) => processInput(e)}
           onKeyDown={(e) => handleBackSpace(e)}
         />
       </section>
