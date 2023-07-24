@@ -73,19 +73,25 @@ export const Home = () => {
       const correctWord = corrects[wordIndex];
       const userTypedWord = userInputWord[wordIndex] || "";
 
+      let heighlight = "";
+      if(userInputWord.length-1 === wordIndex && userInput.length >= 1){
+        heighlight = {backgroundColor:'yellow'};
+      }
+
       for (let charIndex = 0; charIndex < word.length; charIndex++) {
         const correct =
           correctWord &&
           correctWord[charIndex] &&
           correctWord[charIndex].correct;
         const userTypedChar = userTypedWord[charIndex] || "";
+        const currentWord = word[charIndex]
 
         if (correct === true) {
-          allText.push(<letter style={{ color: "green" }}>{userTypedChar}</letter>);
+          allText.push(<letter style={{ color: "green",...heighlight }}>{currentWord}</letter>);
         } else if (correct === false) {
-          allText.push(<letter style={{ color: "red" }}>{userTypedChar}</letter>);
+          allText.push(<letter style={{ color: "red",...heighlight}}>{currentWord}</letter>);
         } else {
-          allText.push(<letter>{word[charIndex]}</letter>);
+          allText.push(<letter style={{...heighlight}}>{word[charIndex]}</letter>);
         }
       }
       if (userTypedWord.length > word.length) {
@@ -96,7 +102,7 @@ export const Home = () => {
           charIndex++
         ) {
           const userTypedChar = userTypedWord[charIndex];
-          allText.push(<letter style={{ color: "red" }}>{userTypedChar}</letter>);
+          allText.push(<letter style={{ color: "red",...heighlight }}>{userTypedChar}</letter>);
         }
       }
       allText.push(<letter> </letter>);
