@@ -18,14 +18,14 @@ export const Home = () => {
   const processInput = (e) => {
     const { value } = e.target;
 
-    if (langauge === "hindi") {
-      const convertedText = [...value]?.reduce(
-        (acc, char) => (acc += englishToHindiMap[char]),
-        ""
-      );
-      setUserInput(convertedText);
-      return;
-    }
+    // if (langauge === "hindi") {
+    //   const convertedText = [...value]?.reduce(
+    //     (acc, char) => (acc += englishToHindiMap[char]),
+    //     ""
+    //   );
+    //   setUserInput(convertedText);
+    //   return;
+    // }
     setUserInput(e.target.value);
   };
 
@@ -172,10 +172,10 @@ export const Home = () => {
       <h4>
         {checkCorrectCount()?.count} / {toBeTyped.replaceAll(" ", "").length}{" "}
         Backspace: {backSpacePressed}{" "}
-        <select onChange={(e) => setLanguage(e.target.value)}>
+        {/* <select onChange={(e) => setLanguage(e.target.value)}>
           <option value="hindi">Hindi</option>
           <option value="english">English</option>
-        </select>
+        </select> */}
       </h4>
       <section className="typing-section">
         {/* <textarea ref={toBeTypedRef} value={toBeTyped} /> */}
