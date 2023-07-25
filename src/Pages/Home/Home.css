@@ -24,5 +24,13 @@
   overflow-y: auto;
   word-break: break-word;
 }
-/* .typing-section > textarea:nth-child(1) {
-} */
+.correct {
+  color: green
+}
+.incorrect {
+  color: tomato;
+}
+.highlight {
+  background-color: rgb(255, 255, 174);
+  font-weight: 400;
+}
