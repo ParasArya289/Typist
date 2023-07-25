@@ -4,6 +4,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
+  font-size: 1.3rem;
 }
 .typing-section {
   width: 70%;
@@ -11,7 +13,7 @@
 .typing-section textarea {
   width: 100%;
   resize: vertical;
-  font-size: 1.5rem;
+  font-size: inherit;
 }
 .textToBeTyped {
   min-height: 10rem;
@@ -20,9 +22,10 @@
   border: 1px solid;
   text-align: left;
   padding: 10px;
-  font-size: 1.5rem;
   overflow-y: auto;
   word-break: break-word;
+  /* scroll-behavior: smooth;  */
+  
 }
 .correct {
   color: green
@@ -31,6 +34,5 @@
   color: tomato;
 }
 .highlight {
-  background-color: rgb(255, 255, 174);
-  font-weight: 400;
+  background-color: rgb(255, 255, 197);
 }

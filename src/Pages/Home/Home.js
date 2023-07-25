@@ -194,7 +194,6 @@ export const Home = () => {
     const highlightedElement = document.querySelector(
       ".textToBeTyped > .highlight"
     );
-    console.log(highlightedElement);
     if (highlightedElement) {
       highlightedElement.scrollIntoView({
         behavior: "auto",
