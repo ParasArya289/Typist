@@ -18,20 +18,29 @@ export const Home = () => {
   const processInput = (e) => {
     const { value } = e.target;
 
-    // if (langauge === "hindi") {
-    //   const convertedText = [...value]?.reduce(
-    //     (acc, char) => (acc += englishToHindiMap[char]),
-    //     ""
-    //   );
-    //   setUserInput(convertedText);
-    //   return;
-    // }
+    if (langauge === "hindi") {
+      let isWaiting = false;
+      const convertedText = [...value]?.reduce((acc, char) => {
+        if (englishToHindiMap[char] === "ि") {
+          isWaiting = true;
+          // return acc;
+          return (acc = acc + "ि");
+        }
+        if (isWaiting) {
+          isWaiting = false;
+          return (acc = acc.slice(0, -1) + englishToHindiMap[char] + "ि");
+        }
+        return (acc += englishToHindiMap[char] ?? "");
+      }, "");
+      setUserInput(convertedText.replaceAll("\u200D", ""));
+      return;
+    }
     setUserInput(e.target.value);
   };
 
   const checkCorrectCount = () => {
-    const toBeTypedWord = toBeTyped.split(" ");
-    const userInputWord = userInput.split(" ");
+    const toBeTypedWord = toBeTyped.replaceAll("\u200D", "").split(" ");
+    const userInputWord = userInput.replaceAll("\u200D", "").split(" ");
 
     let count = 0;
     let corrects = [];
@@ -40,7 +49,14 @@ export const Home = () => {
       userInputWord?.forEach((userWord, idx) => {
         const { count: eachWordCount, elements } = [...userWord]?.reduce(
           (acc, char, i) => {
-            if (char === toBeTypedWord[idx][i]) {
+            console.log(char);
+            let toBeTypedChar = toBeTypedWord[idx][i];
+            let convertedChar =
+              langauge === "hindi"
+                ? englishToHindiMap[toBeTypedChar]
+                : toBeTypedChar;
+            console.log({ char, toBeTypedChar });
+            if (char.replace("\u200D", "") === toBeTypedChar) {
               return {
                 count: acc.count + 1,
                 elements: [
@@ -76,8 +92,8 @@ export const Home = () => {
   };
 
   const renderText = () => {
-    const toBeTypedWord = toBeTyped.split(" ");
-    const userInputWord = userInput.split(" ");
+    const toBeTypedWord = toBeTyped.replaceAll("\u200D", "").split(" ");
+    const userInputWord = userInput.replaceAll("\u200D", "").split(" ");
 
     const { corrects } = checkCorrectCount();
 
@@ -102,19 +118,19 @@ export const Home = () => {
 
         if (correct === true) {
           allText.push(
-            <letter style={{ color: "green", ...heighlight }}>
+            <span style={{ color: "green", ...heighlight }}>
               {currentWord}
-            </letter>
+            </span>
           );
         } else if (correct === false) {
           allText.push(
-            <letter style={{ color: "red", ...heighlight }}>
+            <span style={{ color: "red", ...heighlight }}>
               {currentWord}
-            </letter>
+            </span>
           );
         } else {
           allText.push(
-            <letter style={{ ...heighlight }}>{word[charIndex]}</letter>
+            <span style={{ ...heighlight }}>{word[charIndex]}</span>
           );
         }
       }
@@ -127,13 +143,13 @@ export const Home = () => {
         ) {
           const userTypedChar = userTypedWord[charIndex];
           allText.push(
-            <letter style={{ color: "red", ...heighlight }}>
+            <span style={{ color: "red", ...heighlight }}>
               {userTypedChar}
-            </letter>
+            </span>
           );
         }
       }
-      allText.push(<letter> </letter>);
+      allText.push(<span> </span>);
     });
     return allText;
   };
@@ -168,14 +184,14 @@ export const Home = () => {
 
   return (
     <main className="home">
-      {/* <h2>{userInput}</h2> */}
+      <h2>{userInput}</h2>
       <h4>
         {checkCorrectCount()?.count} / {toBeTyped.replaceAll(" ", "").length}{" "}
         Backspace: {backSpacePressed}{" "}
-        {/* <select onChange={(e) => setLanguage(e.target.value)}>
+        <select onChange={(e) => setLanguage(e.target.value)}>
           <option value="hindi">Hindi</option>
           <option value="english">English</option>
-        </select> */}
+        </select>
       </h4>
       <section className="typing-section">
         {/* <textarea ref={toBeTypedRef} value={toBeTyped} /> */}
@@ -188,6 +204,7 @@ export const Home = () => {
           placeholder="start typing here"
           onChange={(e) => processInput(e)}
           onKeyDown={(e) => handleBackSpace(e)}
+          value={userInput}
         />
       </section>
     </main>

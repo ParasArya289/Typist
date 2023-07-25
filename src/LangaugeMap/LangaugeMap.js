@@ -22,7 +22,7 @@ export const englishToHindiMap = {
   l: "स",
   ";": "य",
   ":": "श्‍",
-  "\\": "(",
+  "\u005c": "(",
   z: "्र",
   x: "ग",
   c: "ब",
@@ -33,7 +33,6 @@ export const englishToHindiMap = {
   ",": "ए",
   ".": "ण्‍",
   "/": "ध्‍",
-  "\u005c": "(",
   "`": "़",
   1: "1",
   2: "2",
@@ -94,6 +93,5 @@ export const englishToHindiMap = {
   "<": "ढ",
   ">": "झ",
   "?": "घ्‍",
-  "|": ")",
   " ": " ",
 };
