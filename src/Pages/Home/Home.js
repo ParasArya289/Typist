@@ -33,9 +33,11 @@ export const Home = () => {
         return (acc += englishToHindiMap[char] ?? "");
       }, "");
       setUserInput(convertedText.replaceAll("\u200D", ""));
+      console.log(convertedText)
       return;
     }
-    setUserInput(e.target.value);
+
+    setUserInput(value);
   };
 
   const checkCorrectCount = () => {
@@ -204,7 +206,7 @@ export const Home = () => {
           placeholder="start typing here"
           onChange={(e) => processInput(e)}
           onKeyDown={(e) => handleBackSpace(e)}
-          value={userInput}
+          // value={userInput}
         />
       </section>
     </main>
