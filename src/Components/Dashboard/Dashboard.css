@@ -1,0 +1,11 @@
+.dashboard{
+    display: flex;
+    width: 70%;
+    height: fit-content;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px
+}
+.timer{
+    transition: all 1s ease;
+}

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Dashboard } from "../../Components/Dashboard/Dashboard";
 import { englishToHindiMap } from "../../LangaugeMap/LangaugeMap";
 import "./Home.css";
 
@@ -204,7 +205,8 @@ export const Home = () => {
 
   return (
     <main className="home">
-      <h6>{userInput}</h6>
+      <Dashboard count={count} wordCount={wordCount} totalWordsTyped={userInput.replaceAll("\u200D","")} totalWords={toBeTyped.split(" ")}/>
+      
       <h4>
         {count} / {toBeTyped.replaceAll(" ", "").length} {wordCount} /
         {toBeTyped.split(" ").length} Backspace: {backSpacePressed}{" "}
