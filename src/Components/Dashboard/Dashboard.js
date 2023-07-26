@@ -15,7 +15,6 @@ export const Dashboard = ({
 
   const timeElapsedMinutes = timer / 60;
   const accuracy =(( wordCount/ totalWords.length) * 100).toFixed(2);
-  console.log(wordCount,totalWords)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,7 +39,7 @@ export const Dashboard = ({
   return (
     <div className="dashboard">
       <div>
-        <h4>
+        <h4 className="wpm">
           {(wordCount / timeElapsedMinutes || 0).toFixed(2) || 0}
           <br />
           WPM
@@ -61,7 +60,7 @@ export const Dashboard = ({
       </div>
       <div>
         <h4>
-          {accuracy}
+          {accuracy}%
           <br />
           ACCURACY
         </h4>

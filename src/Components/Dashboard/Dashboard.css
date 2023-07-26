@@ -7,5 +7,7 @@
     gap:10px
 }
 .timer{
-    transition: all 1s ease;
+}
+.wpm{
+    min-width: 80px;
 }
