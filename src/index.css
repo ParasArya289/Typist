@@ -1,9 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
 
+:root {
+  --primary-color: white;
+  --accent-color: tomato;
+  --background-color: whitesmoke;
+  --correct: green;
+  --incorrect: tomato;
+  --highlight: rgb(255, 255, 197);
+  --switch:#444;
+
+  --primary-text-color: black;
+  --secondary-text-color: grey;
+
+  --fw-bold: 700;
+  --fw-medium: 500;
+  --fw-midlight: 400;
+  --fw-light: 300;
+}
+
 body {
   margin: 0;
-  background-color: whitesmoke;
+  transition: all 0.1s ease-in;
+  background-color: var(--background-color);
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+textarea {
+  font-family: inherit;
+}
+
+:root:has(.SwitchRoot[data-state='checked']){
+  --background-color:#111;
+  --primary-color:#1a1a1a;
+  --correct: lime;
+  --incorrect: tomato;
+  --highlight: #444;
+  --primary-text-color: white;
+  --secondary-text-color: #444;
+
+  --switch:white;
 }
