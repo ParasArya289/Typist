@@ -54,6 +54,7 @@ export const Dashboard = ({
       setFinishedTyping(() => false);
       setStartedTyping(() => false);
       userInputRef.current.disabled = false;
+      userInputRef.current.focus();
     }
   }, [restart]);
 
