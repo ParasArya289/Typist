@@ -5,7 +5,6 @@ export const formatTime = (timeInSec) => {
   if (timeInSec > 1) {
     min = Math.trunc(timeInSec / 60);
     sec = timeInSec % 60;
-    console.log(sec);
 
     const formattedMins = min < 10 ? `${min}` : min;
     const formattedSeconds = sec < 10 ? `0${sec}` : sec;
@@ -13,4 +12,10 @@ export const formatTime = (timeInSec) => {
   }
 
   return formattedString;
+};
+
+export const restartTyping = (setUserInput, setTimer, userInputRef) => {
+  setTimer(1);
+  setUserInput("");
+  userInputRef.current.disabled = true;
 };

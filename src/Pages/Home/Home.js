@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Action } from "../../Components/Action/Action";
 import { Dashboard } from "../../Components/Dashboard/Dashboard";
 import { englishToHindiMap } from "../../LangaugeMap/LangaugeMap";
 import "./Home.css";
@@ -8,7 +9,13 @@ export const Home = () => {
   const [toBeTyped, setToBeTyped] = useState(
     "The quick brown fox jumps over the lazy dog"
   );
+  const [startedTyping, setStartedTyping] = useState(false);
+  const [finishedTyping, setFinishedTyping] = useState(false);
+  const [testTime, setTestTime] = useState(null);
+  const [restart, setRestart] = useState(false);
   const [backSpacePressed, setBackSpacePressed] = useState(0);
+
+  const [incorrectWord, setIncorrectWord] = useState(0);
   const [langauge, setLanguage] = useState("universal");
 
   const containerRef = useRef(null);
@@ -50,63 +57,73 @@ export const Home = () => {
 
     let count = 0;
     let wordCount = 0;
+    let incorrectWordCount = 0;
     let corrects = [];
-    if (userInputWord.length <= toBeTypedWord.length) {
-      if (userInput?.length && toBeTyped.length) {
-        userInputWord?.forEach((userWord, idx) => {
-          let tempWordCount = 0;
-          const { count: eachCharCount, elements } = [...userWord]?.reduce(
-            (acc, char, i) => {
-              console.log(char);
-              let toBeTypedChar = toBeTypedWord[idx][i];
-              // let convertedChar =
-              //   langauge === "hindi"
-              //     ? englishToHindiMap[toBeTypedChar]
-              //     : toBeTypedChar;
-              console.log({ char, toBeTypedChar });
-              if (char.replace("\u200D", "") === toBeTypedChar) {
-                return {
-                  count: acc.count + 1,
-                  elements: [
-                    ...acc.elements,
-                    {
-                      correct: true,
-                      index: i,
-                      word: char,
-                    },
-                  ],
-                };
-              } else {
-                return {
-                  count: acc.count + 1,
-                  elements: [
-                    ...acc.elements,
-                    {
-                      correct: false,
-                      index: i,
-                      word: char,
-                    },
-                  ],
-                };
-              }
-            },
-            { count: 0, elements: [] }
-          );
-          count += eachCharCount;
-          corrects = [...corrects, elements];
 
-          tempWordCount += eachCharCount;
-          if (tempWordCount === toBeTypedWord[idx]?.length) {
-            wordCount += 1;
-          }
-        });
-      }
+    if (userInput?.length && toBeTyped.length) {
+      userInputWord?.forEach((userWord, idx) => {
+        const { count: eachCharCount, elements } = [...userWord]?.reduce(
+          (acc, char, i) => {
+            let toBeTypedChar = toBeTypedWord[idx][i];
+            // let convertedChar =
+            //   langauge === "hindi"
+            //     ? englishToHindiMap[toBeTypedChar]
+            //     : toBeTypedChar;
+
+            if (char.replace("\u200D", "") === toBeTypedChar) {
+              return {
+                count: acc.count + 1,
+                elements: [
+                  ...acc.elements,
+                  {
+                    correct: true,
+                    index: i,
+                    word: char,
+                  },
+                ],
+              };
+            } else {
+              return {
+                count: acc.count,
+                elements: [
+                  ...acc.elements,
+                  {
+                    correct: false,
+                    index: i,
+                    word: char,
+                  },
+                ],
+              };
+            }
+          },
+          { count: 0, elements: [] }
+        );
+        count += eachCharCount;
+        corrects = [...corrects, elements];
+
+        if (userInputWord[idx] === toBeTypedWord[idx]) {
+          wordCount += 1;
+        }
+        //  else if (
+        //   userInputWord[idx] !== toBeTypedWord[idx] &&
+        //   !userInputWord[idx + 1]
+        // ) {
+        //   incorrectWordCount += 1;
+        //   setIncorrectWord((prev) => prev + 1);
+        // }
+      });
     }
 
-    return { count, wordCount, corrects };
+    if (userInputWord?.length >= toBeTypedWord?.length) {
+      setFinishedTyping(true);
+      setStartedTyping(false);
+      console.log("exceed");
+      return { count, wordCount, corrects, incorrectWordCount };
+    }
+    return { count, wordCount, corrects, incorrectWordCount };
   };
 
-  const { count, wordCount, corrects } = useMemo(() => {
+  const { count, wordCount, corrects, incorrectWordCount } = useMemo(() => {
     return checkCorrectCount();
   }, [userInput, toBeTyped]);
 
@@ -203,11 +220,50 @@ export const Home = () => {
     }
   }, [userInput]);
 
+  useEffect(() => {
+    const toBeTypedWord = toBeTyped.replaceAll("\u200D", "").split(" ");
+    const userInputWord = userInput.replaceAll("\u200D", "").split(" ");
+
+    if (userInput.length > 0 && !startedTyping) {
+      setStartedTyping(() => true);
+      setFinishedTyping(() => false);
+    } else if (userInput.length === 0) {
+      setStartedTyping(() => false);
+      setFinishedTyping(() => false);
+    }
+
+    if (userInputWord.at(-1) === toBeTypedWord.at(-1)) {
+      setFinishedTyping(() => true);
+      setStartedTyping(() => false);
+      // finishedTypingHandler();
+      userInputRef.current.disabled = true;
+    }
+  }, [userInput]);
+
+  const finishedTypingHandler = () => {
+    setUserInput(() => "");
+  };
+
   return (
     <main className="home">
-      <Dashboard count={count} wordCount={wordCount} totalWordsTyped={userInput.replaceAll("\u200D","")} totalWords={toBeTyped.split(" ")}/>
-      
-      <h4>
+      <Dashboard
+        count={count}
+        wordCount={wordCount}
+        totalWordsTyped={userInput.replaceAll("\u200D", "")}
+        totalWords={toBeTyped.split(" ")}
+        incorrectWordCount={incorrectWordCount}
+        incorrectWord={incorrectWord}
+        startedTyping={startedTyping}
+        finishedTyping={finishedTyping}
+        setStartedTyping={setStartedTyping}
+        setFinishedTyping={setFinishedTyping}
+        restart={restart}
+        setRestart={setRestart}
+        userInputRef={userInputRef}
+        setUserInput={setUserInput}
+      />
+
+      {/* <h4>
         {count} / {toBeTyped.replaceAll(" ", "").length} {wordCount} /
         {toBeTyped.split(" ").length} Backspace: {backSpacePressed}{" "}
         <select onChange={(e) => setLanguage(e.target.value)} value={langauge}>
@@ -216,7 +272,7 @@ export const Home = () => {
           </option>
           <option value="universal">Universal</option>
         </select>
-      </h4>
+      </h4> */}
       <section className="typing-section">
         <div ref={containerRef} className="textToBeTyped">
           {memoizedRenderText}
@@ -226,6 +282,7 @@ export const Home = () => {
           <textarea ref={userPastedText} placeholder="Paste your text here" />
           <button type="submit">Submit</button>
         </form>
+
         <textarea
           ref={userInputRef}
           placeholder="start typing here"
@@ -238,6 +295,9 @@ export const Home = () => {
             e.preventDefault();
           }}
         />
+        {(finishedTyping || startedTyping) && (
+          <button onClick={() => setRestart(() => true)}>{"Restart"}</button>
+        )}
       </section>
     </main>
   );

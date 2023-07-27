@@ -36,8 +36,11 @@ textarea {
   --correct: lime;
   --incorrect: tomato;
   --highlight: #444;
-  --primary-text-color: white;
+  --primary-text-color: rgba(255, 255, 255, 0.745);
   --secondary-text-color: #444;
 
   --switch:white;
 }
+/* :root:has(.textToBeTyped > .highlight){
+  color:yellow
+} */
