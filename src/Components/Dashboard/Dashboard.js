@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { formatTime } from "../../Utils";
 import "./Dashboard.css";
-import { motion } from "framer-motion";
+import {
+  animate,
+  motion,
+  useAnimation,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 
 export const Dashboard = ({
   count = 0,
@@ -24,6 +30,8 @@ export const Dashboard = ({
   const [startTime, setStartTime] = useState();
   const [startGame, setStartGame] = useState(false);
   const [cycle, setCycle] = useState(0);
+
+  const controls = useAnimation();
 
   const timeElapsedMinutes = timer / 60;
   const accuracy = (
@@ -66,8 +74,8 @@ export const Dashboard = ({
   const { freeStyle } = useMemo(() => {
     let freeStyle = 0;
     if (timer === 1) {
-      setCycle(() => 0);
       freeStyle = 0;
+      setCycle(() => 0);
     } else if ((timer - 1) % 60 === 0) {
       setCycle(() => 1);
       freeStyle = 100;
@@ -79,19 +87,27 @@ export const Dashboard = ({
 
   console.log(freeStyle, cycle);
 
-  // const gradientKeyframes = {
-  //   "0%": {
-  //     backgroundImage: `conic-gradient(var(--accent-color) 0%, var(--primary-color) 0%)`,
-  //   },
-  //   "100%": {
-  //     backgroundImage: `conic-gradient(${
-  //       cycle ? "var(--primary-color)" : "var(--accent-color)"
-  //     } ${freeStyle}%,
-  //         ${
-  //           cycle ? "var(--accent-color)" : "var(--primary-color)"
-  //         } ${freeStyle}%)`,
-  //   },
-  // };
+  // const count = useMotionValue(0);
+  // const rounded = useTransform(count, (latest) => Math.round(latest));
+
+  // useEffect(() => {
+  //   const controls = animate(freeStyle - 1, freeStyle);
+
+  //   return controls.stop;
+  // }, []);
+
+  useEffect(() => {
+    controls.start({
+      backgroundImage: cycle
+        ? `conic-gradient(
+                   var(--primary-color) ${freeStyle || 100}%,
+              var(--accent-color) ${0}%)`
+        : `conic-gradient(
+                var(--accent-color) ${freeStyle}%,
+           var(--primary-color) ${0}%)`,
+      transition: { duration: 1, delay: 0, type: "linear" },
+    });
+  }, [timer, cycle, controls]);
 
   return (
     <div className="dashboard">
@@ -103,22 +119,11 @@ export const Dashboard = ({
         </h4>
       </div>
       <motion.div
-        // animate={{ backgroundImage: gradientKeyframes }}
-        transition={{ duration: 1, delay: 0.2 }}
-        key={freeStyle}
+        animate={controls}
+        // transition={{ duration: 1, delay: 0, type: "linear" }}
         className="timer"
         style={{
           minWidth: "80px",
-          backgroundImage: `conic-gradient(
-            ${
-              cycle
-                ? `var(--primary-color) ${freeStyle}%,
-            var(--accent-color) ${0}%`
-                : `var(--accent-color) ${freeStyle}%,
-            var(--primary-color) ${0}%`
-            }
-            
-    )`,
           borderRadius: "50%",
         }}
       >
