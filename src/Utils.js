@@ -13,9 +13,3 @@ export const formatTime = (timeInSec) => {
 
   return formattedString;
 };
-
-export const restartTyping = (setUserInput, setTimer, userInputRef) => {
-  setTimer(1);
-  setUserInput("");
-  userInputRef.current.disabled = true;
-};

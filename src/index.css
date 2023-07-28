@@ -7,7 +7,7 @@
   --correct: green;
   --incorrect: tomato;
   --highlight: rgb(255, 255, 197);
-  --switch:#444;
+  --switch: #444;
 
   --primary-text-color: black;
   --secondary-text-color: grey;
@@ -30,16 +30,16 @@ textarea {
   font-family: inherit;
 }
 
-:root:has(.SwitchRoot[data-state='checked']){
-  --background-color:#111;
-  --primary-color:#1a1a1a;
+:root:has(.SwitchRoot[data-state="checked"]) {
+  --background-color: #111;
+  --primary-color: #1a1a1a;
   --correct: lime;
   --incorrect: tomato;
   --highlight: #444;
-  --primary-text-color: rgba(255, 255, 255, 0.745);
+  --primary-text-color: rgba(255, 255, 255, 0.7);
   --secondary-text-color: #444;
 
-  --switch:white;
+  --switch: rgba(255, 255, 255, 0.9);
 }
 /* :root:has(.textToBeTyped > .highlight){
   color:yellow

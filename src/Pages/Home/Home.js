@@ -227,22 +227,18 @@ export const Home = () => {
     if (userInput.length > 0 && !startedTyping) {
       setStartedTyping(() => true);
       setFinishedTyping(() => false);
-    } else if (userInput.length === 0) {
-      setStartedTyping(() => false);
-      setFinishedTyping(() => false);
     }
 
-    if (userInputWord.at(-1) === toBeTypedWord.at(-1)) {
+    if (
+      userInputWord[userInputWord.length - 1] ===
+        toBeTypedWord[toBeTypedWord.length - 1] &&
+      userInputWord.length >= toBeTypedWord.length
+    ) {
       setFinishedTyping(() => true);
       setStartedTyping(() => false);
-      // finishedTypingHandler();
       userInputRef.current.disabled = true;
     }
-  }, [userInput]);
-
-  const finishedTypingHandler = () => {
-    setUserInput(() => "");
-  };
+  }, [userInput, toBeTyped]);
 
   return (
     <main className="home">
