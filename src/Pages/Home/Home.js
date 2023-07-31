@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { v4 } from "uuid";
 import { Action } from "../../Components/Action/Action";
 import { Dashboard } from "../../Components/Dashboard/Dashboard";
 import { englishToHindiMap } from "../../LangaugeMap/LangaugeMap";
@@ -140,6 +141,7 @@ export const Home = () => {
       let highlight = "";
       if (userInputWord.length - 1 === wordIndex && userInput.length >= 1) {
         highlight = "highlight";
+
       }
 
       for (let charIndex = 0; charIndex < word.length; charIndex++) {
@@ -150,16 +152,18 @@ export const Home = () => {
         const userTypedChar = userTypedWord[charIndex] || "";
         const currentWord = word[charIndex];
 
+        console.log({userTypedChar})
+
         if (correct === true) {
           allText.push(
-            <span className={`correct ${highlight}`}>{currentWord}</span>
+            <span key={v4()} className={`correct ${highlight}`}>{currentWord}</span>
           );
         } else if (correct === false) {
           allText.push(
-            <span className={`incorrect ${highlight}`}>{currentWord}</span>
+            <span key={v4()} className={`incorrect ${highlight}`}>{currentWord}</span>
           );
         } else {
-          allText.push(<span className={highlight}>{word[charIndex]}</span>);
+          allText.push(<span key={v4()} className={highlight}>{word[charIndex]}</span>);
         }
       }
       if (userTypedWord.length > word.length) {
@@ -173,15 +177,16 @@ export const Home = () => {
           allText.push(
             <span
               className={`incorrect ${highlight}`}
-              // key={`${userTypedChar}-${charIndex}`}
+              key={v4()}
             >
               {userTypedChar}
             </span>
           );
         }
       }
-      allText.push(<span> </span>);
+      allText.push(<span key={v4()}> </span>);
     });
+    console.log({userInputWord,toBeTypedWord})
     return allText;
   };
 
@@ -259,7 +264,7 @@ export const Home = () => {
         setUserInput={setUserInput}
       />
 
-      {/* <h4>
+      <h4>
         {count} / {toBeTyped.replaceAll(" ", "").length} {wordCount} /
         {toBeTyped.split(" ").length} Backspace: {backSpacePressed}{" "}
         <select onChange={(e) => setLanguage(e.target.value)} value={langauge}>
@@ -268,7 +273,8 @@ export const Home = () => {
           </option>
           <option value="universal">Universal</option>
         </select>
-      </h4> */}
+      </h4>
+
       <section className="typing-section">
         <div ref={containerRef} className="textToBeTyped">
           {memoizedRenderText}

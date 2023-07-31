@@ -85,7 +85,6 @@ export const Dashboard = ({
     return { freeStyle };
   }, [timer, cycle]);
 
-  console.log(freeStyle, cycle);
 
   // const count = useMotionValue(0);
   // const rounded = useTransform(count, (latest) => Math.round(latest));
