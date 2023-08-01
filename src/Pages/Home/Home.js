@@ -141,7 +141,6 @@ export const Home = () => {
       let highlight = "";
       if (userInputWord.length - 1 === wordIndex && userInput.length >= 1) {
         highlight = "highlight";
-
       }
 
       for (let charIndex = 0; charIndex < word.length; charIndex++) {
@@ -152,18 +151,26 @@ export const Home = () => {
         const userTypedChar = userTypedWord[charIndex] || "";
         const currentWord = word[charIndex];
 
-        console.log({userTypedChar})
+        console.log({ userTypedChar });
 
         if (correct === true) {
           allText.push(
-            <span key={v4()} className={`correct ${highlight}`}>{currentWord}</span>
+            <span key={v4()} className={`correct ${highlight}`}>
+              {currentWord}
+            </span>
           );
         } else if (correct === false) {
           allText.push(
-            <span key={v4()} className={`incorrect ${highlight}`}>{currentWord}</span>
+            <span key={v4()} className={`incorrect ${highlight}`}>
+              {currentWord}
+            </span>
           );
         } else {
-          allText.push(<span key={v4()} className={highlight}>{word[charIndex]}</span>);
+          allText.push(
+            <span key={v4()} className={highlight}>
+              {word[charIndex]}
+            </span>
+          );
         }
       }
       if (userTypedWord.length > word.length) {
@@ -175,10 +182,7 @@ export const Home = () => {
         ) {
           const userTypedChar = userTypedWord[charIndex];
           allText.push(
-            <span
-              className={`incorrect ${highlight}`}
-              key={v4()}
-            >
+            <span className={`incorrect ${highlight}`} key={v4()}>
               {userTypedChar}
             </span>
           );
@@ -186,7 +190,7 @@ export const Home = () => {
       }
       allText.push(<span key={v4()}> </span>);
     });
-    console.log({userInputWord,toBeTypedWord})
+    console.log({ userInputWord, toBeTypedWord });
     return allText;
   };
 
