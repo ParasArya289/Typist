@@ -80,7 +80,7 @@ export const Dashboard = ({
       setCycle(() => 1);
       freeStyle = 100;
     } else {
-      freeStyle = ((timer - 1) % 60) * 1.66;
+      freeStyle = ((timer) % 60) * 1.6666666667;
     }
     return { freeStyle };
   }, [timer, cycle]);
