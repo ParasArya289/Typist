@@ -86,15 +86,6 @@ export const Dashboard = ({
   }, [timer, cycle]);
 
 
-  // const count = useMotionValue(0);
-  // const rounded = useTransform(count, (latest) => Math.round(latest));
-
-  // useEffect(() => {
-  //   const controls = animate(freeStyle - 1, freeStyle);
-
-  //   return controls.stop;
-  // }, []);
-
   useEffect(() => {
     controls.start({
       backgroundImage: cycle
