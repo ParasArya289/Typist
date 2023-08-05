@@ -295,7 +295,6 @@ export const Home = () => {
           onChange={(e) => processInput(e)}
           onKeyDown={(e) => handleBackSpace(e)}
           value={userInput}
-          // maxLength={MAX_INPUT_LENGTH}
           onMouseDown={(e) => {
             userInputRef?.current?.focus();
             e.preventDefault();
