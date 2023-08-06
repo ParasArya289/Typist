@@ -67,8 +67,7 @@ export const Dashboard = ({
     }
   }, [restart]);
 
-  // const freeStyle =
-  //   timer === 1 ? 0 : (timer - 1) % 60 === 0 ? 100 : ((timer - 1) % 60) * 1.66;
+
   // || (timer - 1) / (120 / 100)
 
   const { freeStyle } = useMemo(() => {
