@@ -48,11 +48,7 @@ export const Dashboard = ({
     return () => clearInterval(interval);
   }, [timer, startedTyping]);
 
-  useEffect(() => {
-    if (startedTyping) {
-      // setTimer(1);
-    }
-  }, [startedTyping]);
+ 
 
   useEffect(() => {
     if (restart) {
