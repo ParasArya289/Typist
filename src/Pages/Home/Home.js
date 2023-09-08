@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { v4 } from "uuid";
-import { Action } from "../../Components/Action/Action";
 import { Dashboard } from "../../Components/Dashboard/Dashboard";
 import { englishToHindiMap } from "../../LangaugeMap/LangaugeMap";
 import "./Home.css";
@@ -44,7 +43,6 @@ export const Home = () => {
         return (acc += englishToHindiMap[char] ?? "");
       }, "");
       setUserInput(convertedText.replaceAll("\u200D", ""));
-      console.log(convertedText);
       return;
     }
     // if (userInputRef?.current?.value?.length)
@@ -115,12 +113,6 @@ export const Home = () => {
       });
     }
 
-    if (userInputWord?.length >= toBeTypedWord?.length) {
-      setFinishedTyping(true);
-      setStartedTyping(false);
-      console.log("exceed");
-      return { count, wordCount, corrects, incorrectWordCount };
-    }
     return { count, wordCount, corrects, incorrectWordCount };
   };
 
@@ -150,8 +142,6 @@ export const Home = () => {
           correctWord[charIndex].correct;
         const userTypedChar = userTypedWord[charIndex] || "";
         const currentWord = word[charIndex];
-
-        console.log({ userTypedChar });
 
         if (correct === true) {
           allText.push(
@@ -190,7 +180,6 @@ export const Home = () => {
       }
       allText.push(<span key={v4()}> </span>);
     });
-    console.log({ userInputWord, toBeTypedWord });
     return allText;
   };
 
@@ -237,11 +226,16 @@ export const Home = () => {
       setStartedTyping(() => true);
       setFinishedTyping(() => false);
     }
+    if (userInputWord?.length > toBeTypedWord?.length) {
+      setFinishedTyping(true);
+      setStartedTyping(false);
+      userInputRef.current.disabled = true;
+    }
 
     if (
+      userInputWord.length >= toBeTypedWord.length &&
       userInputWord[userInputWord.length - 1] ===
-        toBeTypedWord[toBeTypedWord.length - 1] &&
-      userInputWord.length >= toBeTypedWord.length
+        toBeTypedWord[toBeTypedWord.length - 1]
     ) {
       setFinishedTyping(() => true);
       setStartedTyping(() => false);
