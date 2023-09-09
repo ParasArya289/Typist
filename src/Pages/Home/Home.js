@@ -14,6 +14,7 @@ export const Home = () => {
   const [testTime, setTestTime] = useState(null);
   const [restart, setRestart] = useState(false);
   const [backSpacePressed, setBackSpacePressed] = useState(0);
+  
 
   const [incorrectWord, setIncorrectWord] = useState(0);
   const [langauge, setLanguage] = useState("universal");
