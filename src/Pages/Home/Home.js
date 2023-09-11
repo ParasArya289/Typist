@@ -4,6 +4,9 @@ import { Dashboard } from "../../Components/Dashboard/Dashboard";
 import { englishToHindiMap } from "../../LangaugeMap/LangaugeMap";
 import "./Home.css";
 
+// add modal
+// hindi type checking
+
 export const Home = () => {
   const [userInput, setUserInput] = useState("");
   const [toBeTyped, setToBeTyped] = useState(
